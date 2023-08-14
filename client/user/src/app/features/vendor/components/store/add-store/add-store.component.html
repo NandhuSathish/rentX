@@ -1,0 +1,297 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div id="addStore" class="py-10">
+  <form [formGroup]="storeDetailsForm">
+    <div class="space-y-12 px-20">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-lg font-poppins_semi_bold leading-7 text-gray-900">
+          Store Information
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Use a permanent address where you can receive mail.
+        </p>
+
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-4">
+            <label
+              for="store-name"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Store name</label
+            >
+            <div class="mt-2">
+              <input maxlength="20"
+                formControlName="name"
+                type="text"
+                name="store-name"
+                id="store-name"
+                autocomplete="given-name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                    *ngIf="
+                      storeDetailsForm.get('name')?.dirty ||
+                      storeDetailsForm.get('name')?.touched ||
+                      formSubmitted
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="storeDetailsForm.get('name')?.errors?.['required']"
+                    >
+                      Store Name field cannot be left blank.
+                    </span>
+                    
+                    <span class="text-red-500 text-sm">
+                      {{storeDetailsForm.get('name')?.errors?.['pattern'] ? ' Please enter valid Store Name.' : 
+                      storeDetailsForm.get('name')?.errors?.['minlength'] ?  'Please enter valid Store Name.'  : ''
+                      }}
+                    </span>
+                  </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-4">
+            <label
+             
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Mobile</label
+            >
+            <div class="mt-2">
+              <input maxlength="15"
+                formControlName="mobile"
+                type="text"
+                name="mobile"
+                id="mobile"
+                autocomplete="family-name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                    *ngIf="
+                      storeDetailsForm.get('mobile')?.dirty ||
+                      storeDetailsForm.get('mobile')?.touched ||
+                      formSubmitted
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="storeDetailsForm.get('mobile')?.errors?.['required']"
+                    >
+                      Mobile number cannot be left blank.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="storeDetailsForm.get('mobile')?.errors?.['pattern']"
+                    >
+                      Please enter valid mobile number.
+                    </span>
+                  </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-4">
+            <label
+              for="buildingName"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Building name</label
+            >
+            <div class="mt-2">
+              <input maxlength="20"
+                formControlName="buildingName"
+                id="buildingName"
+                name="buildingName"
+                type="text"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+              *ngIf="
+                storeDetailsForm.get('buildingName')?.dirty ||
+                storeDetailsForm.get('buildingName')?.touched ||
+                formSubmitted
+              "
+            >
+              <span
+                class="text-red-500 text text-sm"
+                *ngIf="storeDetailsForm.get('buildingName')?.errors?.['required']"
+              >
+              Building name cannot be left blank.
+              </span>
+              
+              <span class="text-red-500 text-sm">
+                {{storeDetailsForm.get('buildingName')?.errors?.['pattern'] ? ' Please enter valid Store Name.' : 
+                storeDetailsForm.get('buildingName')?.errors?.['minlength'] ?  'Please enter valid Store Name.'  : ''
+                }}
+              </span>
+            </ng-container>
+
+
+            </div>
+          </div>
+
+          <div class="col-span-full">
+            <label
+              for="street-address"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Street address / Road name</label
+            >
+            <div class="mt-2">
+              <input maxlength="20"
+                formControlName="roadName"
+                type="text"
+                name="street-address"
+                id="street-address"
+                autocomplete="street-address"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+              *ngIf="
+                storeDetailsForm.get('roadName')?.dirty ||
+                storeDetailsForm.get('roadName')?.touched ||
+                formSubmitted
+              "
+            >
+              <span
+                class="text-red-500 text text-sm"
+                *ngIf="storeDetailsForm.get('roadName')?.errors?.['required']"
+              >
+              Street address/Road Name cannot be left blank.
+              </span>
+             
+              <span class="text-red-500 text-sm">
+                {{storeDetailsForm.get('roadName')?.errors?.['pattern'] ? 'Enter valid Street address/Road Name.': 
+                storeDetailsForm.get('roadName')?.errors?.['minlength'] ? 'Enter valid Street address/Road Name.': ''
+                }}
+              </span>
+            </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-2 sm:col-start-1">
+            <label
+              for="city"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >City</label
+            >
+            <div class="mt-2">
+              <input maxlength="20"
+                formControlName="city"
+                type="text"
+                name="city"
+                id="city"
+                autocomplete="address-level2"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+              *ngIf="
+                storeDetailsForm.get('city')?.dirty ||
+                storeDetailsForm.get('city')?.touched ||
+                formSubmitted
+              "
+            >
+              <span
+                class="text-red-500 text text-sm"
+                *ngIf="storeDetailsForm.get('city')?.errors?.['required']"
+              >
+                City cannot be left blank.
+              </span>
+             
+              <span class="text-red-500 text-sm">
+                {{storeDetailsForm.get('city')?.errors?.['pattern'] ? 'Enter valid City Name.': 
+                storeDetailsForm.get('city')?.errors?.['minlength'] ? 'Enter valid City Name.': ''
+                }}
+              </span>
+            </ng-container>
+
+
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label
+              for="region"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >State / Province</label
+            >
+            <div class="mt-2">
+              <input maxlength="20"
+                formControlName="state"
+                type="text"
+                name="region"
+                id="region"
+                autocomplete="address-level1"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+              *ngIf="
+                storeDetailsForm.get('state')?.dirty ||
+                storeDetailsForm.get('state')?.touched ||
+                formSubmitted
+              "
+            >
+              <span
+                class="text-red-500 text text-sm"
+                *ngIf="storeDetailsForm.get('state')?.errors?.['required']"
+              >
+                State cannot be left blank.
+              </span>
+             
+              <span class="text-red-500 text-sm">
+                {{storeDetailsForm.get('state')?.errors?.['pattern'] ? 'Enter valid State.': 
+                storeDetailsForm.get('state')?.errors?.['minlength'] ? 'Enter valid State.': ''
+                }}
+              </span>
+            </ng-container>
+
+
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label
+              for="postal-code"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >ZIP / Postal code</label
+            >
+            <div class="mt-2">
+              <input maxlength="8"
+                formControlName="pincode"
+                type="text"
+                name="postal-code"
+                id="postal-code"
+                autocomplete="postal-code"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+              *ngIf="
+                storeDetailsForm.get('pincode')?.dirty ||
+                storeDetailsForm.get('pincode')?.touched ||
+                formSubmitted
+              "
+            >
+              <span
+                class="text-red-500 text text-sm"
+                *ngIf="storeDetailsForm.get('pincode')?.errors?.['required']"
+              >
+                Pincode cannot be left blank.
+              </span>
+             
+              <span class="text-red-500 text-sm">
+                {{storeDetailsForm.get('pincode')?.errors?.['pattern'] ? 'Enter valid Zip Code.': 
+                storeDetailsForm.get('pincode')?.errors?.['minlength'] ? 'Enter valid Zip Code.': ''
+                }}
+              </span>
+            </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 flex items-center justify-end gap-x-6 px-20">
+      <button [disabled]="buttonDisabler"
+        (click)="onStoreDetailsSubmit()"
+        type="submit"
+        class="rounded-md bg-blue-500 px-16 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

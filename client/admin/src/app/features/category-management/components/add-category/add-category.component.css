@@ -1,0 +1,9 @@
+::ng-deep .mat-dialog-container {
+  background-color: #101826;
+}
+::ng-deep .mat-dialog-container {
+  padding: 0;
+}
+::ng-deep.mat-dialog-container {
+  border-radius: 6px;
+}

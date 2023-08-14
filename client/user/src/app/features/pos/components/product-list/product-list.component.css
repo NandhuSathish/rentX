@@ -1,0 +1,36 @@
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+::ng-deep .mat-form-field-ripple {
+  display: none;
+}
+
+/* ::ng-deep .custom-date-range-picker .custom-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+::ng-deep mat-date-range-input {
+  border: none;
+  outline: none;
+}
+::ng-deep
+  .mat-form-field-appearance-fill
+  .mat-form-field-infix
+  input.cdk-focused,
+::ng-deep
+  .mat-form-field-appearance-fill
+  .mat-form-field-infix
+  input.cdk-program-focused {
+  outline: none !important;
+  box-shadow: none !important;
+}
+::ng-deep .cdk-monitor-subtree-focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+::ng-deep.mat-date-range-input-container {
+  box-shadow: none !important;
+  border: none !important;
+} */

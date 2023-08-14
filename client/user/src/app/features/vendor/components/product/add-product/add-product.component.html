@@ -1,0 +1,569 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div id="addproduct" class="py-10">
+  <form [formGroup]="productDetailsForm">
+    <div class="space-y-12 px-20">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-lg font-poppins_semi_bold leading-7 text-gray-900">
+          Product Information
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Add product and and its information.
+        </p>
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-3">
+            <label
+              for="product-name"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Product name</label
+            >
+            <div class="mt-2">
+              <input
+                maxlength="20"
+                formControlName="name"
+                type="text"
+                name="product-name"
+                id="product-name"
+                autocomplete="given-name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  productDetailsForm.get('name')?.dirty ||
+                  productDetailsForm.get('name')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('name')?.errors?.['required']"
+                >
+                  Product Name field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{productDetailsForm.get('name')?.errors?.['pattern'] ? ' Please enter valid product Name.' : 
+                        productDetailsForm.get('name')?.errors?.['minlength'] ?  'Please enter valid product Name.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-3 sm:col-start-1">
+            <div class="mt-2">
+              <mat-form-field class="flex w-full custom-form-field pt-4">
+                <mat-label>Select category</mat-label>
+                <mat-select
+                  formControlName="category"
+                  class="custom-select"
+                  [(ngModel)]="selectedCategoryId"
+                  (selectionChange)="loadSubcategory()"
+                >
+                  <mat-option
+                    *ngFor="let category of allCategory"
+                    [value]="category.id"
+                  >
+                    {{ category.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <ng-container
+                *ngIf="
+                  productDetailsForm.get('category')?.dirty ||
+                  productDetailsForm.get('category')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('category')?.errors?.['required']"
+                >
+                  Category is required.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-3">
+            <div class="mt-2">
+              <mat-form-field class="flex w-full custom-form-field pt-4">
+                <mat-label>Select sub category</mat-label>
+                <mat-select formControlName="subCategory" class="custom-select">
+                  <mat-option
+                    *ngFor="let subCategory of selectedSubcategory"
+                    [value]="subCategory.id"
+                  >
+                    {{ subCategory.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <ng-container
+                class="mt-"
+                *ngIf="
+                  productDetailsForm.get('subCategory')?.dirty ||
+                  productDetailsForm.get('subCategory')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('subCategory')?.errors?.['required']"
+                >
+                  Sub Category is required.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-3 sm:col-start-1">
+            <label
+              for="image"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Cover Photo
+              <button
+                [matTooltip]="
+                  'Please ensure images meet the following criteria: max 1280x1920 resolution, max 2MB size, PNG/JPG formats only.'
+                "
+                class="flex:justify-center align-middle text-gray-500 transition-colors duration-200 hover:text-blue-500 focus:outline-none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-info"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </button>
+            </label>
+
+            <input
+              (change)="coverSelect($event)"
+              type="file"
+              accept="image/*"
+              class="block w-full px-3 py-1 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+            />
+            <span *ngIf="!coverValidator" class="text-red-500 text-sm">
+              Must Choose a Cover Photo.
+            </span>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label
+              for="category"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Description</label
+            >
+            <div class="mt-2">
+              <input
+                maxlength="50"
+                formControlName="description"
+                type="text"
+                name="description"
+                id="description"
+                autocomplete="address-level2"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  productDetailsForm.get('description')?.dirty ||
+                  productDetailsForm.get('description')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('description')?.errors?.['required']"
+                >
+                  Description field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{productDetailsForm.get('description')?.errors?.['pattern'] ? ' Please enter valid Description.' : 
+                  productDetailsForm.get('description')?.errors?.['minlength'] ?  'Please enter valid Description.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label
+              for="postal-code"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Store</label
+            >
+            <div class="">
+              <mat-form-field class="flex w-full custom-form-field">
+                <mat-label>Select store</mat-label>
+                <mat-select formControlName="store" class="custom-select">
+                  <mat-option *ngFor="let store of allStore" [value]="store.id">
+                    {{ store.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <ng-container
+                *ngIf="
+                  productDetailsForm.get('store')?.dirty ||
+                  productDetailsForm.get('store')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('store')?.errors?.['required']"
+                >
+                  Store is required.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label
+              for="stock"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Total Stock</label
+            >
+            <div class="mt-2">
+              <input
+                maxlength="6"
+                formControlName="stock"
+                type="text"
+                name="stock"
+                id="stock"
+                autocomplete="stock"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  productDetailsForm.get('stock')?.dirty ||
+                  productDetailsForm.get('stock')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('stock')?.errors?.['required']"
+                >
+                  Stock field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{productDetailsForm.get('stock')?.errors?.['pattern'] ? ' Please enter valid Stock count.' : 
+                  productDetailsForm.get('stock')?.errors?.['minlength'] ?  'Please enter valid Stock count.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label
+              for="stock"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Price</label
+            >
+            <div class="mt-2">
+              <input
+                maxlength="6"
+                formControlName="price"
+                type="text"
+                name="price"
+                id="price"
+                autocomplete="price"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  productDetailsForm.get('price')?.dirty ||
+                  productDetailsForm.get('price')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="productDetailsForm.get('price')?.errors?.['required']"
+                >
+                  Price field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{productDetailsForm.get('price')?.errors?.['pattern'] ? ' Please enter valid Price.' : 
+                  productDetailsForm.get('price')?.errors?.['minlength'] ?  'Please enter valid Price.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-6">
+            <label
+              for=""
+              class="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Specification
+              <button
+                [disabled]="specificationControls.length == 10"
+                (click)="addSpecification()"
+                [matTooltip]="'Maximum allowed Key value pair is 10.'"
+                class="text-gray-900 hover:text-blue-500 disabled:text-gray-600 rounded-full focus:ring-inset focus:ring-blue-500 flex:justify-center align-middle"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-plus-circle"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="16"></line>
+                  <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+              </button>
+            </label>
+            <div formArrayName="specification">
+              <div
+                *ngFor="
+                  let spec of specificationControls.controls;
+                  let i = index
+                "
+                class="mb-4"
+              >
+                <div
+                  [formGroupName]="i"
+                  class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+                >
+                  <div class="flex flex-col sm:col-span-2">
+                    <input
+                      maxlength="20"
+                      formControlName="key"
+                      type="text"
+                      name="key"
+                      id="key"
+                      autocomplete="key"
+                      class="block w-full mr-6 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:col-span"
+                    />
+
+                    <ng-container
+                      *ngIf="
+                        spec.get('key')?.errors &&
+                        (spec.get('key')?.dirty ||
+                          spec.get('key')?.touched ||
+                          formSubmitted)
+                      "
+                    >
+                      <span
+                        class="text-red-500 text-sm"
+                        *ngIf="spec.get('key')?.errors?.['required']"
+                        >Key is required.</span
+                      >
+                    </ng-container>
+                    <span class="text-red-500 text-sm">
+                      {{spec.get('key')?.errors?.['pattern'] ? ' Please enter valid key.' : 
+                      spec.get('key')?.errors?.['minlength'] ?  'Please enter valid key.'  : ''
+                      }}
+                    </span>
+                  </div>
+
+                  <div class="flex flex-col sm:col-span-2">
+                    <input
+                      maxlength="20"
+                      formControlName="value"
+                      type="text"
+                      name="value"
+                      id="value"
+                      autocomplete="key"
+                      class="block w-full mr-6 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+                    />
+                    <ng-container
+                      *ngIf="
+                        spec.get('value')?.errors &&
+                        (spec.get('value')?.dirty ||
+                          spec.get('value')?.touched ||
+                          formSubmitted)
+                      "
+                    >
+                      <span
+                        class="text-red-500 text-sm"
+                        *ngIf="spec.get('value')?.errors?.['required']"
+                        >Value is required.</span
+                      >
+                      <span class="text-red-500 text-sm">
+                        {{spec.get('value')?.errors?.['pattern'] ? ' Please enter valid Value.' : 
+                        spec.get('value')?.errors?.['minlength'] ?  'Please enter valid Value.'  : ''
+                        }}
+                      </span>
+                    </ng-container>
+                  </div>
+
+                  <button
+                    [disabled]="specificationControls.length == 1"
+                    (click)="removeSpecification(i)"
+                    class="text-gray-900 hover:text-red-500 flex:justify-center align-middle disabled:text-gray-600"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-minus-circle"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- //-----------------------------// -->
+        <div
+          class="drop-zone mt-6 sm:col-span-2"
+          (drop)="onDrop($event)"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          [class.drag-over]="isDragOver"
+        >
+          <label
+            for="region"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Product Images
+            <button
+              [matTooltip]="
+                'Please ensure images meet the following criteria: max 1280x1920 resolution, max 4 images, max 2MB size, PNG/JPG formats only.'
+              "
+              class="flex:justify-center align-middle text-gray-500 transition-colors duration-200 hover:text-blue-500 focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-info"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg></button
+          ></label>
+          <label
+            class="flex justify-center w-full h-32 mt-2 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+          >
+            <span class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              <span class="font-medium text-gray-600"
+                >Drop files to Attach, or
+                <span class="text-blue-600 underline">browse</span></span
+              >
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              (change)="onFilesSelected($event)"
+              class="hidden"
+            />
+          </label>
+          <span
+            *ngIf="optionalImageValidator === false"
+            class="text-red-500 text-sm"
+            >Choose at least one image of the product.</span
+          >
+        </div>
+
+        <span class="text-xs py-2">
+          ⚠️ Please avoid uploading images larger than 2MB and strive for higher
+          quality, background-free product images for optimal results.</span
+        >
+      </div>
+
+      <div class="min-w-l flex justify-center align-middle mt-5">
+        <td *ngFor="let image of images">
+          <img src="{{ image }}" width="200" height="200" class="pl-4 pr-4" />
+        </td>
+
+        <!-- Display selected images -->
+        <div class="flex space-x-4">
+          <div
+            *ngFor="let image of base64Images; let i = index"
+            class="relative"
+          >
+            <div class="group">
+              <div class="shadow-xl rounded-lg">
+                <img
+                  [src]="image"
+                  alt="Selected Image"
+                  class="w-20 h-20 object-cover"
+                />
+              </div>
+              <div
+                class="absolute bg-black-500 inset-0 flex items-center justify-center opacity-0 group-hover:opacity-75 bg-black transition-opacategory duration-300"
+                (click)="removeImage(i)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6 text-red-500 fill-current"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- //-----------------------------------// -->
+
+    <div class="mt-6 flex items-center justify-end gap-x-6 px-20">
+      <button
+        (click)="onCoverCompress()"
+        type="submit"
+        class="rounded-md bg-blue-500 px-16 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

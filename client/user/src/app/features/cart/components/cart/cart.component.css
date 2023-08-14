@@ -1,0 +1,72 @@
+/* Assuming this style is in your component's CSS/SCSS file */
+:host ::ng-deep .mat-datepicker-content {
+    background-color: white; /* Set the background color to white */
+  }
+  
+  :host ::ng-deep .mat-calendar {
+    background-color: white; /* Set the background color to white */
+  }
+  
+  :host ::ng-deep .mat-calendar-body-cell {
+    color: white; /* Set the text color to white */
+  }
+  :host ::ng-deep .mat-button-focus-overlay {
+    background-color: transparent; /* Set the focus overlay background color to transparent */
+  }
+  
+  :host ::ng-deep .mat-calendar-body-selected {
+    background-color: white; /* Set the selected date background color to white */
+    color: black; /* Set the selected date text color to black */
+  }
+  
+  :host ::ng-deep .mat-calendar-body-selected-range {
+    background-color: white; /* Set the selected date range background color to white */
+    color: black; /* Set the selected date range text color to black */
+  }
+  
+  :host ::ng-deep .mat-calendar-body-today {
+    color: white; /* Set the today's date text color to white */
+  }
+  
+  :host ::ng-deep .mat-calendar-header {
+    background-color: white; /* Set the header background color to white */
+    color: black; /* Set the header text color to black */
+  }
+  
+  :host ::ng-deep .mat-calendar-header-cell {
+    color: black; /* Set the header cell text color to black */
+  }
+  
+  :host ::ng-deep .mat-calendar-table-header {
+    background-color: white; /* Set the table header background color to white */
+    color: black; /* Set the table header text color to black */
+  }
+  :host ::ng-deep .cdk-overlay-pane {
+    background-color: white; /* Set the background color of the overlay */
+  }
+
+  :host ::ng-deep .cdk-overlay-backdrop {
+    background-color: white !important;
+  }
+
+  :host ::ng-deep .cdk-overlay-container {
+    background-color: white;
+  }
+  :host ::ng-deep .cdk-overlay-connected-position-bounding-box {
+    background-color: white;
+  }
+  
+  :host ::ng-deep .mat-focus-indicator.mat-datepicker-close-button.mat-raised-button.mat-button-base.cdk-visually-hidden.mat-primary {
+    background-color: white;
+  }
+  
+  :host ::ng-deep .mat-calendar-body-cell.mat-calendar-body-active,
+:host ::ng-deep .mat-calendar-body-cell.mat-calendar-body-range-start,
+:host ::ng-deep .mat-calendar-body-cell.mat-calendar-body-in-range {
+  background-color: white;
+}
+
+:host ::ng-deep .mat-datepicker-toggle-active {
+    background-color: white;
+  }
+  

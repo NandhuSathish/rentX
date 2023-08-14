@@ -1,0 +1,11 @@
+::ng-deep .mat-snack-bar-container {
+  background-color: #fff; /* change this to the desired color */
+  color: rgb(30 41 59);
+}
+::ng-deep .mat-snack-bar-container button.mat-button.mat-button-base {
+  color: #3b82f6; /* change this to the desired text color */
+}
+
+.mat-icon {
+  font-size: 14px;
+}

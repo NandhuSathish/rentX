@@ -1,0 +1,372 @@
+<app-nav-vendor></app-nav-vendor>
+
+<div class="container px-6 lg:px-14 mt-24">
+  <h1 class="mt-12 mb-14 font-poppins_medium text-2xl">
+    Complete your registration to continue...
+  </h1>
+
+  <mat-stepper [linear]="isLinear" #stepper class="h-screen">
+    <mat-step [stepControl]="vendorDetailForm" [editable]="isEditable">
+      <form [formGroup]="vendorDetailForm">
+        <div class="space-y-12 mt-12">
+          <div
+            class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3"
+          >
+            <div>
+              <h2 class="text-base font-semibold leading-7 text-gray-900">
+                Personal Information
+              </h2>
+              <p class="mt-1 text-sm leading-6 text-gray-600">
+                Use a valid details where you can receive a call.
+              </p>
+            </div>
+
+            <div
+              class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2"
+            >
+              <!-- fname -->
+              <div class="sm:col-span-4">
+                <label
+                  for="name"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Name</label
+                >
+                <div class="mt-2">
+                  <input maxlength="50"
+                    formControlName="name"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Enter your name"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+
+                  <ng-container
+                    *ngIf="
+                      vendorDetailForm.get('name')?.invalid &&
+                      (vendorDetailForm.get('name')?.dirty ||
+                        vendorDetailForm.get('name')?.touched ||
+                        formSubmitted)
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorDetailForm.get('name')?.errors?.['required']"
+                    >
+                      Please provide your name.
+                    </span>
+
+                    <span
+                      class="text-red-500 text text-sm flex items-center justify-between"
+                      *ngIf="vendorDetailForm.get('name')?.errors?.['pattern']"
+                    >
+                      Name doesn't meet our criteria.
+
+                      <mat-icon
+                        class="error-icon pt-2"
+                        [matTooltip]="
+                          'Name must be between 3 and 50 characters and cannot contain special characters or whitespace'
+                        "
+                        >info
+                      </mat-icon></span
+                    >
+                  </ng-container>
+                </div>
+              </div>
+              <!-- mobileNumber. -->
+              <div class="sm:col-span-4">
+                <label
+                  for="mobile-number"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Mobile Number</label
+                >
+                <div class="mt-2">
+                  <input maxlength="15"
+                    #mobileNumber
+                    formControlName="mobileNo"
+                    type="text"
+                    name="mobileNo"
+                    id="mobileNo"
+                    placeholder="Enter your mobile number"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+                  <ng-container
+                    *ngIf="
+                      vendorDetailForm.get('mobileNo')?.dirty ||
+                      vendorDetailForm.get('mobileNo')?.touched
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorDetailForm.get('mobileNo')?.errors?.['required']"
+                    >
+                      Mobile number field cannot be left blank.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorDetailForm.get('mobileNo')?.errors?.['maxlength']"
+                    >
+                      Please enter valid mobile number.
+                    </span>
+                    <span class="text-red-500 text-sm">
+                      {{vendorDetailForm.get('mobileNo')?.errors?.['pattern'] ? 'Invalid phone number format.' : 
+                      vendorDetailForm.get('mobileNo')?.errors?.['minlength'] ? 'Mobile number must be at least 10 digits long.' : ''
+                      }}
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-end mt-4">
+          <button
+            class="flex-none rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm disabled:bg-blue-200 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            mat-button
+            matStepperNext
+            [disabled]="!vendorDetailForm.valid"
+            (click)="onSubmitDetails()"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="vendorBankDetailForm" [editable]="isEditable">
+      <form [formGroup]="vendorBankDetailForm">
+        <div class="space-y-12">
+          <div
+            class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3"
+          >
+            <div>
+              <h2 class="text-base font-semibold leading-7 text-gray-900">
+                Bank Details
+              </h2>
+              <p class="mt-1 text-sm leading-6 text-gray-600">
+                Please fillout the bank details to continue.
+              </p>
+            </div>
+
+            <div
+              class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2"
+            >
+              <div class="sm:col-span-3">
+                <label
+                  for="accountHolderName"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Account Holder Name</label
+                >
+                <div class="mt-2">
+                  <input maxlength="50"
+                    formControlName="accountHolderName"
+                    type="text"
+                    name="accountHolderName"
+                    id="accountHolderName"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+                  <ng-container
+                    *ngIf="
+                      vendorBankDetailForm.get('accountHolderName')?.dirty ||
+                      vendorBankDetailForm.get('accountHolderName')?.touched
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('accountHolderName')?.errors?.['required']"
+                    >
+                      Please fill in the account holder name field.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('accountHolderName')?.errors?.['maxlength']"
+                      >Account holder name must be 50 characters or less.
+                    </span>
+                    <span class="text-red-500 text-sm">
+                      {{vendorBankDetailForm.get('accountHolderName')?.errors?.['pattern'] ? 'Account holder name should consist of letters only.' : 
+                      vendorBankDetailForm.get('accountHolderName')?.errors?.['minlength'] ? 'Account holder name should contain at least 3 characters.' : ''
+                      }}
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label
+                  for="accountNo"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Account Number</label
+                >
+                <div class="mt-2">
+                  <input maxlength="18"
+                    formControlName="accountNo"
+                    type="text"
+                    name="accountNo"
+                    id="accountNo"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+                  <ng-container
+                    *ngIf="
+                      vendorBankDetailForm.get('accountNo')?.dirty ||
+                      vendorBankDetailForm.get('accountNo')?.touched
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('accountNo')?.errors?.['required']"
+                    >
+                      Please fill in the account number field.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('accountNo')?.errors?.['maxlength']"
+                      >Account number name must be 18 digits or less.
+                    </span>
+                    <span class="text-red-500 text-sm">
+                      {{vendorBankDetailForm.get('accountNo')?.errors?.['pattern'] ? 'Account number should consist of digits only.' : 
+                    vendorBankDetailForm.get('accountNo')?.errors?.['minlength'] ? 'Account number should contain at least 8 digits.' : ''
+                      }}
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label
+                  for="ifscCode"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >IFSC Code</label
+                >
+                <div class="mt-2">
+                  <input maxlength="11"
+                    formControlName="ifscCode"
+                    id="ifscCode"
+                    name="ifscCode"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+                  <ng-container
+                    *ngIf="
+                      vendorBankDetailForm.get('ifscCode')?.dirty ||
+                      vendorBankDetailForm.get('ifscCode')?.touched
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('ifscCode')?.errors?.['required']"
+                    >
+                      Please fill in the IFSC code field.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('ifscCode')?.errors?.['pattern']"
+                      >Invalid IFSC code format. Please enter a valid IFSC code.
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label
+                  for="panNo"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >PAN Number</label
+                >
+                <div class="mt-2">
+                  <input maxlength="10"
+                    formControlName="panNo"
+                    id="panNo"
+                    name="panNo"
+                    type="text"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+                  <ng-container
+                    *ngIf="
+                      vendorBankDetailForm.get('panNo')?.dirty ||
+                      vendorBankDetailForm.get('panNo')?.touched
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('panNo')?.errors?.['required']"
+                    >
+                      Please fill in the PAN field.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('panNo')?.errors?.['pattern']"
+                      >Invalid PAN format. Please enter a valid PAN.
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="col-span-full">
+                <label
+                  for="gstNo"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >GST Number</label
+                >
+                <div class="mt-2">
+                  <input maxlength="15"
+                    formControlName="gstNo"
+                    type="text"
+                    name="gstNo"
+                    id="gstNo"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+                  <ng-container
+                    *ngIf="
+                      vendorBankDetailForm.get('gstNo')?.dirty ||
+                      vendorBankDetailForm.get('gstNo')?.touched
+                    "
+                  >
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('gstNo')?.errors?.['required']"
+                    >
+                      Please fill in the GST number field.
+                    </span>
+                    <span
+                      class="text-red-500 text text-sm"
+                      *ngIf="vendorBankDetailForm.get('gstNo')?.errors?.['pattern']"
+                      >Invalid GST number format. Please enter a valid GST
+                      number.
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="flex items-center justify-end mt-4">
+        <button
+          class="flex-none rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm disabled:bg-blue-200 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          mat-button
+          matStepperNext
+          [disabled]="!vendorBankDetailForm.valid"
+          (click)="onSubmitBankDetails()"
+        >
+          Next
+        </button>
+      </div>
+    </mat-step>
+    <mat-step [editable]="isEditable">
+      <ng-template matStepLabel>Completed</ng-template>
+
+      <div
+        class="flex items-center justify-center flex-col mt-24 font-poppins_semi_bold"
+      >
+        <p class="font-poppins_medium text-6xl">You are now done.</p>
+        <button
+          mat-button
+          routerLink="/waitingPage"
+          class="text-blue-500 hover:text-blue-400 font-poppins_bold"
+        >
+          You will get notified when account got approved
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>
+
+<app-footer></app-footer>

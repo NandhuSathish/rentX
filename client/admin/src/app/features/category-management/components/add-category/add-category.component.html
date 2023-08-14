@@ -1,0 +1,127 @@
+<div class="p-8 bg-gray-800" role="alert">
+  <div class="flex items-center">
+    <h3
+      class="text-lg font-poppins_black leading-6 flex justify-center mb-4 text-white"
+      id="modal-title"
+    >
+      Add Category
+    </h3>
+  </div>
+  <div class="text-sm"></div>
+  <div class="flex">
+    <form
+      class="space-y-6"
+      [formGroup]="addCategoryForm"
+      (keydown.enter)="submitButton.focus()"
+    >
+      <div class="w-50 lg:w-96 md:w-50">
+        <label
+          class="block mb-2 text-sm font-medium text-white"
+          for="LoggingEmailAddress"
+          >Category Name</label
+        >
+        <input
+          (input)="handleInputChange()"
+          formControlName="name"
+          type="text"
+          name="name"
+          id="name"
+          class="block w-full py-1.5 pr-5 border rounded-lg placeholder-gray-200/30 pl-4 bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 mt-4 mb-3"
+          maxlength="20"
+        />
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addCategoryForm.get('name')?.touched && addCategoryForm.get('name')?.errors?.['required']||formSubmitted"
+        >
+          Name is required
+        </div>
+
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addCategoryForm.get('name')?.errors?.['minlength'] && !addCategoryForm.get('name')?.errors?.['pattern']"
+        >
+          Name should be at least 3 characters long
+        </div>
+
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addCategoryForm.get('name')?.errors?.['maxlength'] && !addCategoryForm.get('name')?.errors?.['pattern']"
+        >
+          Name should not be more than 20 characters long
+        </div>
+
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addCategoryForm.get('name')?.errors?.['pattern']"
+        >
+          Name should only contain letters and numbers
+        </div>
+        <div
+          *ngIf="showErrorMessage"
+          class="validationMessage text-red-500 pb-3"
+        >
+          {{ errorData }}
+        </div>
+      </div>
+      <div class="w-50 lg:w-96 md:w-50 sm:col-span-3 sm:col-start-1">
+        <label for="image" class="block mb-2 text-sm font-medium text-white"
+          >Cover Photo
+          <button
+            [matTooltip]="
+              'Please ensure images meet the following criteria: max 1280x1920 resolution, max 2MB size, PNG/JPG formats only.'
+            "
+            class="flex:justify-center align-middle text-gray-500 transition-colors duration-200 hover:text-blue-500 focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-info"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </button>
+        </label>
+
+        <input
+          (change)="coverSelect($event)"
+          type="file"
+          accept="image/*"
+          class="block w-full py-1.5 pr-5 border rounded-lg placeholder-gray-200/30 pl-4 bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 mt-4 mb-3 file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full"
+        />
+        
+        <ng-container>
+        <span *ngIf="!coverValidator" class="text-red-500 text-sm">
+          Must Choose a Cover Photo.
+        </span>
+      </ng-container>
+      </div>
+    </form>
+  </div>
+  <div class="btn_container flex justify-end">
+    <button
+      type="submit"
+      (click)="closeDialog()"
+      class="w-auto px-5 py-2 mr-6 tracking-wide text-white transition-colors duration-300 transform bg-blue-700 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
+    >
+      Cancel
+    </button>
+    <button
+      #submitButton
+      autofocus
+      (click)="onCoverCompress()"
+      type="submit"
+      class="w-auto px-5 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-700 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
+    >
+      Submit
+    </button>
+  </div>
+</div>

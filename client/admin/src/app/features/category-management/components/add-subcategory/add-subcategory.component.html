@@ -1,0 +1,85 @@
+<div class="p-8 bg-gray-800" role="alert">
+  <div class="flex items-center">
+    <h3
+      class="text-lg font-poppins_black leading-6 flex justify-center mb-4 text-white"
+      id="modal-title"
+    >
+      Add Sub Category
+    </h3>
+  </div>
+  <div class="text-sm"></div>
+  <div class="flex">
+    <form
+      class="space-y-6"
+      [formGroup]="addSubCategoryForm"
+      (keydown.enter)="submitButton.focus()"
+    >
+      <div class="w-50 lg:w-96 md:w-50">
+        <label
+          class="block mb-2 text-sm font-medium text-white"
+          for="LoggingEmailAddress"
+          >Sub Category Name</label
+        >
+        <input maxlength="20"
+          (input)="handleInputChange()"
+          formControlName="name"
+          type="text"
+          name="name"
+          id="name"
+          class="block w-full py-1.5 pr-5 border rounded-lg placeholder-gray-300/30 pl-4 bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 mt-4 mb-3"
+        />
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addSubCategoryForm.get('name')?.touched && addSubCategoryForm.get('name')?.errors?.['required']&&formSubmitted"
+        >
+          Name is required
+        </div>
+
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addSubCategoryForm.get('name')?.errors?.['minlength'] && !addSubCategoryForm.get('name')?.errors?.['pattern']"
+        >
+          Name should be at least 3 characters long
+        </div>
+
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addSubCategoryForm.get('name')?.errors?.['maxlength'] && !addSubCategoryForm.get('name')?.errors?.['pattern']"
+        >
+          Name should not be more than 20 characters long
+        </div>
+
+        <div
+          class="validationMessage text-red-500 pb-3"
+          *ngIf="addSubCategoryForm.get('name')?.errors?.['pattern']"
+        >
+          Name should only contain letters and numbers
+        </div>
+        <div
+          *ngIf="showErrorMessage"
+          class="validationMessage text-red-500 pb-3"
+        >
+          {{ errorData }}
+        </div>
+        <div class="btn_container flex justify-end">
+          <button
+            type="submit"
+            (click)="closeDialog()"
+            class="w-auto px-5 py-2 mr-6 tracking-wide text-white transition-colors duration-300 transform bg-blue-700 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
+          >
+            Cancel
+          </button>
+          <button
+            #submitButton
+            autofocus
+            (click)="onSubmit()"
+            type="submit"
+            class="w-auto px-5 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-700 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

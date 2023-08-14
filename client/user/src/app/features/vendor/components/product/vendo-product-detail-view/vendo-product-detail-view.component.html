@@ -1,0 +1,703 @@
+<ngx-ui-loader></ngx-ui-loader>
+<div id="addproduct" class="py-10">
+  <form [formGroup]="editProductForm">
+    <div class="space-y-12 px-20">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-xl font-poppins_semi_bold leading-7 text-gray-900">
+          Product Information
+          <button class="hover:text-blue-600" (click)="editHandle()"> 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-edit"
+            >
+              <path
+                d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+              ></path>
+              <path
+                d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+              ></path>
+            </svg>
+          </button>
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          View product and its information.
+        </p>
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-3">
+            <label
+              for="product-name"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Product name</label
+            >
+            <div class="mt-3">
+              <input
+
+              [attr.disabled]="iseditable? true : null"
+            
+                [ngModel]="productDetails.name"
+                maxlength="20"
+                formControlName="name"
+                type="text"
+                name="product-name"
+                id="product-name"
+                autocomplete="given-name"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  editProductForm.get('name')?.dirty ||
+                  editProductForm.get('name')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('name')?.errors?.['required']"
+                >
+                  Product Name field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{editProductForm.get('name')?.errors?.['pattern'] ? ' Please enter valid product Name.' : 
+                        editProductForm.get('name')?.errors?.['minlength'] ?  'Please enter valid product Name.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+            <label
+              for="product-name"
+              class="block text-sm font-medium mt-6 leading-6 text-gray-900"
+              >Description</label
+            >
+            <div class="mt-3">
+              <input  [attr.disabled]="iseditable? true : null"
+                maxlength="50"
+                formControlName="description"
+                [ngModel]="productDetails.description"
+                type="text"
+                name="description"
+                id="description"
+                autocomplete="address-level2"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  editProductForm.get('description')?.dirty ||
+                  editProductForm.get('description')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('description')?.errors?.['required']"
+                >
+                  Description field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{editProductForm.get('description')?.errors?.['pattern'] ? ' Please enter valid Description.' : 
+                  editProductForm.get('description')?.errors?.['minlength'] ?  'Please enter valid Description.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+            <label
+              for="product-name"
+              class="block text-sm font-medium leading-6 mt-6 text-gray-900"
+              >Price</label
+            >
+            <div class="mt-3">
+              <input  [attr.disabled]="iseditable? true : null"
+                formControlName="price"
+                type="text"
+                name="price"
+                [ngModel]="productDetails.price"
+                id="price"
+                autocomplete="price"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  editProductForm.get('price')?.dirty ||
+                  editProductForm.get('price')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('price')?.errors?.['required']"
+                >
+                  Price field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{editProductForm.get('price')?.errors?.['pattern'] ? ' Please enter valid Price.' : 
+                  editProductForm.get('price')?.errors?.['minlength'] ?  'Please enter valid Price.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="sm:col-span-4">
+            <label
+              for="region"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Cover Photo</label
+            >
+            <div class="mt-6  flex justify-center group">
+              <div  [attr.disabled]="iseditable? true : null"
+                *ngIf="!imageLoader"
+                class="w-48 h-48 bg-gray-300 animate-pulse"
+              ></div>
+              <div *ngIf="imageLoader">
+                <img
+                  src="{{ coverImage }}"
+                  alt="Cover Photo"
+                  class="w-48 h-48 rounded-lg object-cover flex justify-center  transition-transform duration-300 transform-gpu hover:scale-110 hover:z-10"
+                />
+              </div>
+            </div>
+          </div>
+          <div *ngIf="iseditable" class="sm:col-span-3 sm:col-start-1">
+            <label
+              for="category"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Category</label
+            >
+            <div class="mt-2">
+              <input  [attr.disabled]="iseditable? true : null"
+             
+              type="text"
+              value="{{productDetails.category.name}}"
+              id="price"
+              autocomplete="price"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+            />
+            </div>
+          </div>
+          <div *ngIf="!iseditable" class="sm:col-span-3 sm:col-start-1">
+            <label
+              for="category"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Category</label
+            >
+            <div class="mt-2">
+              <select  [attr.disabled]="iseditable? true : null"
+                [(ngModel)]="currentCategory"
+                (change)="loadSubcategory($event)"
+                formControlName="category"
+                data-te-select-init
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              >
+                <option value="" hidden disabled selected>
+                  Choose Category
+                </option>
+                <option
+                  *ngFor="let category of allCategory"
+                  [value]="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="
+                  editProductForm.get('category')?.dirty ||
+                  editProductForm.get('category')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('category')?.errors?.['required']"
+                >
+                  Category is required.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+          <div *ngIf="iseditable"class="sm:col-span-3">
+            <label
+              for="category"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Sub Category</label
+            >
+            <div class="mt-2">
+              <input  [attr.disabled]="iseditable? true : null"
+             
+              type="text"
+              value="{{productDetails.subCategory.name}}"
+              id="price"
+              autocomplete="price"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+            />
+            </div>
+          </div>
+          <div *ngIf="!iseditable" class="sm:col-span-3">
+            <label
+              for="region"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Sub Category</label
+            >
+            <div class="mt-2">
+              <select  [attr.disabled]="iseditable? true : null"
+                [(ngModel)]="currentSubCategory"
+                formControlName="subCategory"
+                data-te-select-init
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              >
+                <option value="" hidden disabled selected>
+                  Choose Sub Category
+                </option>
+                <option
+                  *ngFor="let subCategory of selectedSubcategory"
+                  [value]="subCategory.id"
+                >
+                  {{ subCategory.name }}
+                </option>
+              </select>
+
+              <ng-container
+                class="mt-"
+                *ngIf="
+                  editProductForm.get('subCategory')?.dirty ||
+                  editProductForm.get('subCategory')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('subCategory')?.errors?.['required']"
+                >
+                  Sub Category is required.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- <div class="sm:col-span-3 sm:col-start-1">
+            <label
+              for="image"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Cover Photo <button
+            
+              [matTooltip]="'Please ensure images meet the following criteria: Square Ratio, max 2MB size, PNG/JPG formats only.'"
+              class="flex:justify-center align-middle text-gray-500 transition-colors duration-200 hover:text-blue-500 focus:outline-none"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          </button>
+              </label
+            >
+
+            <input
+              (change)="coverSelect($event)"
+              type="file"
+              class="block w-full px-3 py-1 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full dark:text-gray-300 placeholder-gray-400/70 dark:placeholder-gray-500 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+            />
+            <span *ngIf="!coverValidator" class="text-red-500 text-sm">
+              Must Choose a Cover Photo.
+            </span>
+          </div> -->
+
+          <!-- <div class="sm:col-span-3">
+            <label
+              for="category"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Description</label
+            >
+            <div class="mt-2">
+              <input
+                maxlength="50"
+                formControlName="description"
+                [ngModel]="productDetails.description"
+                type="text"
+                name="description"
+                id="description"
+                autocomplete="address-level2"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  editProductForm.get('description')?.dirty ||
+                  editProductForm.get('description')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('description')?.errors?.['required']"
+                >
+                  Description field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{editProductForm.get('description')?.errors?.['pattern'] ? ' Please enter valid Description.' : 
+                  editProductForm.get('description')?.errors?.['minlength'] ?  'Please enter valid Description.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div> -->
+          <div *ngIf="iseditable"class="sm:col-span-3">
+            <label
+              for="category"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Store</label
+            >
+            <div class="mt-2">
+              <input  [attr.disabled]="iseditable? true : null"
+             
+              type="text"
+              value="{{productDetails.store.name}}"
+              id="price"
+              autocomplete="price"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+            />
+            </div>
+          </div>
+          <div *ngIf="!iseditable" class="sm:col-span-3">
+            <label
+              for="postal-code"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Store</label
+            >
+            <div class="mt-2">
+              <select  [attr.disabled]="iseditable? true : null"
+                [(ngModel)]="currentStore"
+                formControlName="store"
+                data-te-select-init
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              >
+                <option value="" hidden disabled selected>Choose Store</option>
+                <option *ngFor="let store of allStore" [value]="store.id">
+                  {{ store.name }}
+                </option>
+              </select>
+              <ng-container
+                *ngIf="
+                  editProductForm.get('store')?.dirty ||
+                  editProductForm.get('store')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('store')?.errors?.['required']"
+                >
+                  Store is required.
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label
+              for="stock"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Total Stock</label
+            >
+            <div class="mt-2">
+              <input  [attr.disabled]="iseditable? true : null"
+                formControlName="stock"
+                type="text"
+                name="stock"
+                id="stock"
+                [ngModel]="productDetails.stock"
+                autocomplete="stock"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  editProductForm.get('stock')?.dirty ||
+                  editProductForm.get('stock')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('stock')?.errors?.['required']"
+                >
+                  Stock field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{editProductForm.get('stock')?.errors?.['pattern'] ? ' Please enter valid Stock count.' : 
+                  editProductForm.get('stock')?.errors?.['minlength'] ?  'Please enter valid Stock count.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- <div class="sm:col-span-2">
+            <label
+              for="stock"
+              class="block text-sm font-medium leading-6 text-gray-900"
+              >Price</label
+            >
+            <div class="mt-2">
+              <input
+                formControlName="price"
+                type="text"
+                name="price"
+                [ngModel]="productDetails.price"
+                id="price"
+                autocomplete="price"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
+              />
+              <ng-container
+                *ngIf="
+                  editProductForm.get('price')?.dirty ||
+                  editProductForm.get('price')?.touched ||
+                  formSubmitted
+                "
+              >
+                <span
+                  class="text-red-500 text text-sm"
+                  *ngIf="editProductForm.get('price')?.errors?.['required']"
+                >
+                  Price field cannot be left blank.
+                </span>
+
+                <span class="text-red-500 text-sm">
+                  {{editProductForm.get('price')?.errors?.['pattern'] ? ' Please enter valid Price.' : 
+                  editProductForm.get('price')?.errors?.['minlength'] ?  'Please enter valid Price.'  : ''
+                  }}
+                </span>
+              </ng-container>
+            </div>
+          </div> -->
+
+          <div class="sm:col-span-7">
+            <label class="block text-sm mb-4 font-medium leading-6 text-gray-900">
+              Specification
+              <button
+                *ngIf="!iseditable"
+                [disabled]="specificationControls.length == 10 || iseditable"
+                (click)="addSpecification()"
+                [matTooltip]="'Maximum allowed Key value pair is 10.'"
+                class="text-gray-900 hover:text-blue-500 disabled:text-gray-600 rounded-full focus:ring-inset focus:ring-blue-500 flex:justify-center align-middle"
+              >
+                <!-- Button SVG code here -->
+              </button>
+            </label>
+          
+            <div formArrayName="specification">
+              <div   *ngFor="let spec of productDetails.specification | keyvalue let i = index">
+                <div class="flex flex-col sm:flex-row">
+                  <input
+                    [attr.disabled]="iseditable ? true : null"
+                    type="text"
+                    placeholder="Key"
+                    [value]="spec.key"
+                    class="block w-full mb-6 mr-6 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset text-sm focus:ring-blue-500 sm:w-auto md:w-full"
+                  />
+                  <input
+                    [attr.disabled]="iseditable ? true : null"
+                    type="text"
+                    placeholder="Value"
+                    [value]="spec.value"
+                    class="block w-full mb-6 mr-6 rounded-md border-0 text-gray-900 shadow-sm text-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:w-auto md:w-full"
+                  />
+                  <button
+                    *ngIf="!iseditable"
+                    (click)="removeSpecification(i)"
+                    class="text-gray-900 mb-6 hover:text-red-500 flex:justify-center align-middle disabled:text-gray-600"
+                  >
+                    <!-- Button SVG code here -->
+                  </button>
+                </div>
+                <hr class="my-4 border-gray-300 sm:hidden" /> <!-- Add separation only in mobile view -->
+              </div>
+            </div>
+          </div>
+          
+          
+          
+
+
+
+          <!-- <div class="sm:col-span-7">
+            <label
+              class="block text-sm mb-4 font-medium leading-6 text-gray-900"
+            >
+              Specification
+              <button *ngIf="!iseditable"
+                [disabled]="specificationControls.length == 10 || iseditable"
+                (click)="addSpecification()"
+                [matTooltip]="'Maximum allowed Key value pair is 10.'"
+                class="text-gray-900 hover:text-blue-500 disabled:text-gray-600 rounded-full focus:ring-inset focus:ring-blue-500 flex:justify-center align-middle"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-plus-circle"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="16"></line>
+                  <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+              </button>
+            </label>
+
+            <div formArrayName="specification">
+              <div *ngFor="let item of transformedSpecificationData; let i = index">
+                <div class="flex col-span-2">
+                  <input [attr.disabled]="iseditable ? true : null"
+                         type="text"
+                         placeholder="Key"
+                         [value]="item.key"
+                         class="block w-full mb-6 mr-6 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 "
+                  />
+                  <input [attr.disabled]="iseditable ? true : null"
+                         type="text"
+                         placeholder="Value"
+                         [value]="item.value"
+                         class="block w-full mr-6 mb-6 rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:col-span"
+                  />
+                  <button *ngIf="!iseditable"
+                         
+                  (click)="removeSpecification(i)"
+                          class="text-gray-900 mb-6 hover:text-red-500 flex:justify-center align-middle disabled:text-gray-600"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-circle">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div> -->
+
+
+          
+        </div>
+        <div>
+          <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Product Images</label>
+          <div class="flex flex-col items-center mt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+            <ng-container *ngIf="image1">
+              <div class="relative group ">
+                <div *ngIf="!imageLoader" class="w-48 h-48 bg-gray-300 mb-4 animate-pulse"></div>
+                <img *ngIf="imageLoader" src="{{ image1 }}" alt="Image 1" class="flex mb-4 justify-center object-cover w-48 h-48 rounded-lg transition-transform duration-300 transform-gpu hover:scale-110 hover:z-10" />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="image2">
+              <div class="relative group">
+                <div *ngIf="!imageLoader" class="w-48 h-48 mb-4 bg-gray-300 animate-pulse"></div>
+                <img *ngIf="imageLoader" src="{{ image2 }}" alt="Image 2" class="mb-4 object-cover w-48 h-48 rounded-lg transition-transform duration-300 transform-gpu hover:scale-110 hover:z-10" />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="image3">
+              <div class="relative group">
+                <div *ngIf="!imageLoader" class="w-48 h-48 bg-gray-300 mb-4 animate-pulse"></div>
+                <img *ngIf="imageLoader" src="{{ image3 }}" alt="Image 3" class="object-cover mb-4 w-48 h-48 rounded-lg transition-transform duration-300 transform-gpu hover:scale-110 hover:z-10" />
+                <div *ngFor="let image of productImages">
+                  <img *ngIf="imageLoader && image" src="{{ image }}" alt="Image 3" class="object-cover mb-4 w-48 h-48 rounded-lg transition-transform duration-300 transform-gpu hover:scale-110 hover:z-10" />
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="image4">
+              <div class="relative">
+                <div *ngIf="!imageLoader" class="w-48 h-48 bg-gray-300 animate-pulse mb-4"></div>
+                <img *ngIf="imageLoader" src="{{ image4 }}" alt="Image 4" class="object-cover mb-4 w-48 h-48 rounded-lg transition-transform duration-300 transform-gpu hover:scale-110 hover:z-10" />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        
+        
+        
+      </div>
+
+      <!-- //-----------------------------// -->
+      <!-- <div
+          class="drop-zone mt-6 sm:col-span-2"
+          (drop)="onDrop($event)"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          [class.drag-over]="isDragOver"
+        >
+          <label
+            for="region"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Product Images  <button
+            
+            [matTooltip]="'Please ensure images meet the following criteria: max 1280x1920 resolution, max 4 images, max 2MB size, PNG/JPG formats only.'"
+            class="flex:justify-center align-middle text-gray-500 transition-colors duration-200 hover:text-blue-500 focus:outline-none"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          </button></label 
+          >
+          <label
+            class="flex justify-center w-full h-32 mt-2 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+          >
+            <span class="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              <span class="font-medium text-gray-600"
+                >Drop files to Attach, or
+                <span class="text-blue-600 underline">browse</span></span
+              >
+            </span>
+            <input
+              type="file"
+              multiple
+              (change)="onFilesSelected($event)"
+              class="hidden"
+            />
+          </label>
+          <span
+            *ngIf="optionalImageValidator === false"
+            class="text-red-500 text-sm"
+            >Choose at least one image of the product.</span
+          >
+        </div> -->
+
+      <!-- <span class="text-xs py-2">
+          ⚠️ Please avoid uploading images larger than 2MB and strive for higher
+          quality, background-free product images for optimal results.</span
+        > -->
+
+      <!-- //-----------------------------------// -->
+
+      <div *ngIf="!iseditable" class="mt-6 flex items-center justify-end gap-x-6 px-20">
+        <button
+          type="submit"
+          (click)="onCoverCompress()"
+          class="rounded-md bg-blue-500 px-16 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        >
+          Update
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

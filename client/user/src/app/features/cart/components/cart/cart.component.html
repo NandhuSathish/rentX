@@ -1,0 +1,99 @@
+
+<style>
+  @layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+</style>
+
+
+<app-nav></app-nav>
+<div class="h-full bg-gray-100 pt-10 mb-4">
+  <div class="mx-auto max-w-6xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+    <div class="rounded-lg md:w-2/3">
+      <div *ngFor="let product of tempData" class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start relative">
+        <div class="absolute top-2 right-2 sm:top-4 p-4 sm:right-4">
+          <svg (click)="removeItemFromCart()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+        <div class="flex justify-center sm:justify-end">
+          <img src="{{product.product.thumbnail}}" alt="product-image" class="w-48 h-48 object-contain rounded-lg sm:w-48 sm:h-48 sm:items-center" />
+        </div>
+        <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between mb-6">
+          <div class="mt-5 sm:mt-0">
+            <h2 class="text-lg font-bold text-gray-900 sm:text-xl">{{product.product.name}}</h2>
+            <p class="mt-1 text-xs text-gray-700 mb-6">{{product.product.category.name}}</p>
+            <div class="mt-4 flex items-center mb-12">
+              <div class="flex-col lg:flex justify-evenly items-start bg-white h-14 text-center">
+                <div class="flex justify-between mt-4 items-center w-full">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                </div>
+                <mat-form-field class="w-full h-full lg:w-full md:w-4/12 pointer-events-none">
+                  <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="dateFilterFn" [min]="minDate">
+                    <input matStartDate formControlName="start" class="custom-input pointer-events-none" readonly placeholder="Start date" />
+                    <input matEndDate formControlName="end" class="custom-input pointer-events-none" readonly placeholder="End date" />
+                  </mat-date-range-input>
+                </mat-form-field>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </div>
+            </div>
+          </div>
+         
+
+
+    
+          <div class=" flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+            
+            <div class="flex my-12 items-center border-gray-100">
+              <button (click)="removeItemFromCart()">
+                <span class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
+              </button>
+              <input class="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value="2" min="1" />
+              <button (click)="addItemToCart()">
+                <span class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+              </button>
+            </div>
+    
+            <div class="flex items-center ">
+              <p class="text-lg font-bold">₹{{product.product.price}} Rs</p>
+            </div>
+          </div>
+         
+        </div>
+        <!-- <div   class="flex items-end">
+          <svg (click)="removeItemFromCart()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div> -->
+      
+      </div>
+     
+      
+    </div>
+
+    <!-- Sub total -->
+    <div class="mt-6 h-full  rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+      <div class="mb-2 flex justify-between">
+        <p class="text-gray-700">Subtotal</p>
+        <p class="text-gray-700">₹129.99</p>
+      </div>
+      <div class="flex justify-between">
+        <p class="text-gray-700">Shipping</p>
+        <p class="text-gray-700">₹4.99</p>
+      </div>
+      <hr class="my-4" />
+      <div class="flex justify-between">
+        <p class="text-lg font-bold">Total</p>
+        <div class="">
+          <p class="mb-1 text-lg font-bold">₹134.98 Rs</p>
+          <p class="text-sm text-gray-700">including VAT</p>
+        </div>
+      </div>
+      <button class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Check out</button>
+    </div>
+  </div>
+</div>

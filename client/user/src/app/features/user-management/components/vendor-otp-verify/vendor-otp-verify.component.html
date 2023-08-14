@@ -1,0 +1,70 @@
+<div class="bg-white py-16 sm:py-24 lg:py-32 flex items-center">
+  <div class="mx-auto max-w-full px-6 lg:px-8">
+    <div
+      class="max-w-2xl text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+    >
+      <h2 class="inline sm:block">We sent an OTP to your registered email.</h2>
+      <p class="inline sm:block">Verify your email with OTP to continue.</p>
+    </div>
+    <form class="mt-10 max-w-md" (ngSubmit)="onSubmit()" [formGroup]="otpForm">
+      <div class="flex gap-x-4">
+        <label for="otp" class="sr-only">OTP</label>
+        <input
+          formControlName="otp" maxlength="6"
+          id="otp"
+          name="otp"
+          type="text"
+          required
+          class="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+          placeholder="Enter your otp"
+        />
+
+        <button
+          class="flex-none rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Submit
+        </button>
+      </div>
+      <div class="flex items-center justify-start mt-2">
+        <ng-container
+          *ngIf="
+            otpForm.get('otp')?.invalid &&
+            (otpForm.get('otp')?.dirty ||
+              otpForm.get('otp')?.touched ||
+              formSubmitted)
+          "
+        >
+          <span
+            class="text-red-500 text text-sm"
+            *ngIf="otpForm.get('otp')?.errors?.['required']"
+          >
+            OTP required.
+          </span>
+          <span
+            class="text-red-500 text text-sm"
+            *ngIf="otpForm.get('otp')?.errors?.['pattern']"
+          >
+            Please make sure you have entered a valid OTP.
+          </span>
+        </ng-container>
+      </div>
+    </form>
+    <div class="resend cursor-pointer">
+      <h4 *ngIf="!timerEnded" class="mx-1 text-sm font-poppins_medium_italic">
+        <span class="text-blue-600 px-2">{{ remainingTime }}</span> Seconds
+      </h4>
+      <button
+      [disabled]="isResendClicked"
+        class="text-blue-600 mx-2 text-sm font-poppins_medium_italic disabled:text-gray-400"
+        *ngIf="timerEnded " 
+        (click)="onResendOtp()"
+        >Resend OTP</button>
+    </div>
+  </div>
+  <div class="max-w-2xl hidden lg:block">
+    <div class="bg-transparent mt-6 lg:w-2/3 h-full" id="lottie-container">
+      <img src="../../../../assets/email.gif" alt="" srcset="" />
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

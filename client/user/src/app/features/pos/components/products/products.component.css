@@ -1,0 +1,19 @@
+.emoji-404 {
+  position: relative;
+  animation: mymove 2.5s infinite;
+}
+
+@keyframes mymove {
+  33% {
+    top: 0px;
+  }
+  66% {
+    top: 20px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+.shadow-left {
+  box-shadow: -4px 0 6px -1px rgba(0, 0, 0, 0.1);
+}
